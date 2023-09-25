@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package library;
+
+service LibraryService {
+    // Librarian operations
+    rpc add_book(AddBookRequest) returns (AddBookResponse);
+    rpc update_book(UpdateBookRequest) returns (UpdateBookResponse);
+    rpc remove_book(RemoveBookRequest) returns (RemoveBookResponse);
+    rpc list_borrowed_books(ListBorrowedBooksRequest) returns (ListBorrowedBooksResponse);
+
+    // Student operations
+    rpc list_available_books(ListAvailableBooksRequest) returns (ListAvailableBooksResponse);
+    rpc locate_book(LocateBookRequest) returns (LocateBookResponse);
+    rpc borrow_book(BorrowBookRequest) returns (BorrowBookResponse);
+
+    // User management
+    rpc create_users(stream CreateUserRequest) returns (CreateUserResponse);
+}
+
+message AddBookRequest {
+    string title = 1;
+    string author_1 = 2;
+    string author_2 = 3;
+    string location = 4;
+    string isbn = 5;
+}
+
+message AddBookResponse {
+    string isbn = 1;
+}
+
+message UpdateBookRequest {
+    string isbn = 1;
+    string title = 2;
+    string author_1 = 3;
+    string author_2 = 4;
+    string location = 5;
+}
+
+message UpdateBookResponse {
+    string message = 1;
+}
+
+message RemoveBookRequest {
+    string isbn = 1;
+}
+
+message RemoveBookResponse {
+    repeated BookInfo books = 1;
+}
+
+message ListBorrowedBooksRequest {
+    // Add any request fields if needed.
+}
+
+message ListBorrowedBooksResponse {
+    repeated BookInfo books = 1;
+}
+
+message ListAvailableBooksRequest {
+    // Add any request fields if needed.
+}
+
+message ListAvailableBooksResponse {
+    repeated BookInfo books = 1;
+}
+
+message LocateBookRequest {
+    string isbn = 1;
+}
+
+message LocateBookResponse {
+    string location = 1;
+    bool available = 2;
+}
+
+message BorrowBookRequest {
+    string user_id = 1;
+    string isbn = 2;
+}
+
+message BorrowBookResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message CreateUserRequest {
+    string user_id = 1;
+    UserType user_type = 2;
+}
+
+message CreateUserResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+enum UserType {
+    STUDENT = 0;
+    LIBRARIAN = 1;
+}
+
+message BookInfo {
+    string title = 1;
+    string author_1 = 2;
+    string author_2 = 3;
+    string location = 4;
+    string isbn = 5;
+    bool available = 6;
+}
+
+message User {
+    string user_id = 1;
+    UserType user_type = 2;
+}
